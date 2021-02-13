@@ -1,73 +1,43 @@
 <template>
-  <div class="container">
-    <div>
-      <Logo />
-      <h1 class="title">
-        fingood_calendar
-      </h1>
-      <div class="links">
-        <a
-          href="https://nuxtjs.org/"
-          target="_blank"
-          rel="noopener noreferrer"
-          class="button--green"
-        >
-          Documentation
-        </a>
-        <a
-          href="https://github.com/nuxt/nuxt.js"
-          target="_blank"
-          rel="noopener noreferrer"
-          class="button--grey"
-        >
-          GitHub
-        </a>
-      </div>
+  <section class="container">
+
+    <h1>
+      FinGood calendar
+    </h1>
+
+    <div class="no-print">
+      <CalendarInput></CalendarInput>
     </div>
-  </div>
+
+    <CalendarTable></CalendarTable>
+
+  </section>
 </template>
 
 <script>
-export default {}
+import CalendarInput from '~/components/CalendarInput.vue'
+import CalendarTable from '~/components/CalendarTable.vue'
+
+export default {
+  components: {
+    CalendarInput,
+    CalendarTable
+  }
+}
 </script>
 
 <style>
-.container {
-  margin: 0 auto;
-  min-height: 100vh;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  text-align: center;
-}
 
-.title {
-  font-family:
-    'Quicksand',
-    'Source Sans Pro',
-    -apple-system,
-    BlinkMacSystemFont,
-    'Segoe UI',
-    Roboto,
-    'Helvetica Neue',
-    Arial,
-    sans-serif;
-  display: block;
-  font-weight: 300;
-  font-size: 100px;
-  color: #35495e;
-  letter-spacing: 1px;
-}
+  @media print {
 
-.subtitle {
-  font-weight: 300;
-  font-size: 42px;
-  color: #526488;
-  word-spacing: 5px;
-  padding-bottom: 15px;
-}
+    @page {
+      size: auto;   /* auto is the initial value */
+      margin: 0;  /* this affects the margin in the printer settings */
+    }
+    .no-print, .no-print *
+    {
+      display: none !important;
+    }
+  }
 
-.links {
-  padding-top: 15px;
-}
 </style>
