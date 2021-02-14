@@ -34,7 +34,14 @@ export default {
   modules: [
     // https://go.nuxtjs.dev/bootstrap
     'bootstrap-vue/nuxt',
+    '@nuxtjs/axios',
+    '@nuxtjs/proxy',
+    '@nuxt/http'
   ],
+
+  proxy: {
+  '/api/v1': { target: 'https://be-staging.fingood.cz:55400', pathRewrite: {'^/api/v1': ''} }
+  },
 
   // Build Configuration: https://go.nuxtjs.dev/config-build
   build: {

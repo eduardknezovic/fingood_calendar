@@ -12,12 +12,14 @@
       </h1>
 
       <div>
-      <h4>Draw From:</h4>
-      <b-datepicker v-model="drawFrom" locale="cs"></b-datepicker>
-        <!--
-        <h1>{{drawFrom.toLocaleString('cs')}}</h1>
-        -->
-    </div>
+        <b-datepicker v-model="formInput['DrawFrom']"></b-datepicker>
+        <b-datepicker v-model="formInput['FirstDate']"></b-datepicker>
+        <b-form-input v-model="formInput['Debt']" type="number" placeholder="Enter Debt"></b-form-input>
+        <b-form-input v-model="formInput['InterestRatePrc']" type="number" placeholder="Enter Interest Rate Percentage"></b-form-input>
+        <b-form-input v-model="formInput['PaymentCount']" type="number" placeholder="Enter Payment Count"></b-form-input>
+        <b-form-input v-model="formInput['PaymentPeriod']" type="number" placeholder="Enter Payment Period"></b-form-input>
+        <b-button @click="getTableRows()">Get Table</b-button>
+      </div>
     </div>
 
     <!--
@@ -44,13 +46,16 @@ export default {
   },
   data() {
     return {
-      drawFrom: new Date(this.$route.query.drawFrom),
-      firstDate: new Date(this.$route.query.drawFrom),
-      debt: 0,
-      interestRatePrc: 0,
-      paymentCount: 0,
-      paymentPeriod: 0,
-      rows: [
+      formInput: {
+        "DrawFrom": new Date(this.$route.query.drawFrom),
+        "FirstDate": new Date(this.$route.query.firstDate),
+        "Debt": this.$route.query.debt,
+        "InterestRatePrc": this.$route.query.interest,
+        "PaymentCount": this.$route.query.paymentCount,
+        "PaymentPeriod": this.$route.query.paymentPeriod,
+      },
+      rows: [],
+      test_rows: [
         {
             "Number": 1,
             "Date": "2020-03-10T11:39:33.912Z",
@@ -264,6 +269,19 @@ export default {
     ]
     }
   },
+  methods: {
+    getTableRows() {
+      console.log("Hello!")
+      console.log(this.formInput)
+      var url = "https://be-staging.fingood.cz:55400/api/common/SimulateCalendar"
+      const PATH_API = "/api/common/SimulateCalendar"
+      url = `/api/v1${PATH_API}`
+      // const url = "/api"
+      const response = this.$axios.post(url, this.formInput).then(response => {
+        this.rows = response.data["Rows"]
+      })
+    }
+  },
   computed: {
     items() {
       var formatted
@@ -283,7 +301,7 @@ export default {
         row["Amount"] = formatter.format(row["Amount"])
         row["Interest"] = formatter.format(row["Interest"])
         row["Debt"] = formatter.format(row["Debt"])
-        row["PaidAmount"] = 20000000
+        // row["PaidAmount"] = 20000000
         row["PaidAmount"] = formatter.format(row["PaidAmount"])
         row["Principal"] = formatter.format(row["Principal"])
         return row
@@ -304,6 +322,17 @@ export default {
 
       return formatted
     }
+  },
+  beforeMount() {
+    console.log(this.formInput["Debt"])
+    // check if all of the values are present needed to make the request
+    // if yes, make the request!
+    console.warn(this.formInput["PaymentPeriod"])
+    var someValueMissing = Object.keys(this.formInput).some(key => this.formInput[key] === undefined)
+    if (someValueMissing) {
+      return
+    }
+    this.getTableRows()
   }
 }
 </script>
