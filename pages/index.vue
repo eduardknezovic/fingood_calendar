@@ -124,12 +124,12 @@ export default {
   data() {
     return {
       form: {
-        DrawFrom: new Date(this.$route.query.drawFrom),
-        FirstDate: new Date(this.$route.query.firstDate),
-        Debt: Number(this.$route.query.debt),
-        InterestRatePrc: Number(this.$route.query.interest),
-        PaymentCount: parseInt(this.$route.query.paymentCount),
-        PaymentPeriod: parseInt(this.$route.query.paymentPeriod)
+        DrawFrom: "",
+        FirstDate: "",
+        Debt: "",
+        InterestRatePrc: "",
+        PaymentCount: "",
+        PaymentPeriod: ""
       },
       rows: [],
     }
@@ -146,7 +146,7 @@ export default {
       Debt: {
         required,
         numeric,
-        between: between(0, 10000000000)
+        between: between(0, 1000000000)
       },
       InterestRatePrc: {
         required,
@@ -195,6 +195,17 @@ export default {
       if (!Object.keys(query).length) {
         return true
       }
+
+      this.form.DrawFrom =  new Date(query.drawFrom)
+
+      console.log(this.form.DrawFrom)
+
+
+      this.form.FirstDate = new Date(query.firstDate)
+      this.form.Debt =  Number(query.debt)
+      this.form.InterestRatePrc = Number(query.interest)
+      this.form.PaymentCount = parseInt(query.paymentCount)
+      this.form.PaymentPeriod = parseInt(query.paymentPeriod)
       /*
       How can we do this?
       We can copy paste from data to here and init data with empty strings.
@@ -242,22 +253,25 @@ export default {
 <style>
 
   .calendar-table {
-    width: 1200px !important;
+    width: 210mm !important;
     white-space: pre;
-    font-size: 20px;
+    font-size: 18px;
   }
 
   @media print {
 
     @page {
-      size: auto;   /* auto is the initial value */
-      margin: 0;  /* this affects the margin in the printer settings */
+      size: A4;   /* auto is the initial value */
+      margin: 0;
+      padding: 0;
     }
 
     .calendar-table {
-      white-space: pre;
+      width: 190mm !important;
       font-size: 12px;
       border-collapse: collapse;
+      margin: 0;
+      padding: 0;
     }
 
 
