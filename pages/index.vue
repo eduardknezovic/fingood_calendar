@@ -1,79 +1,122 @@
 <template>
+  <client-only>
   <section class="container">
-
-
     <div class="no-print">
-      <!--
-      <CalendarInput></CalendarInput>
-      -->
 
       <h1>
-        FinGood calendar
+        FinGOOD Investment Calendar
       </h1>
 
       <div>
 
 
+        <b-row>
+          <b-col>
         <b-form-group label="Draw From">
           <b-form-datepicker :state="validateState('DrawFrom')" v-model="form['DrawFrom']"></b-form-datepicker>
           <b-form-invalid-feedback  v-if="!$v.form.DrawFrom.required">
             This is a required field!
           </b-form-invalid-feedback>
           <b-form-invalid-feedback  v-if="!$v.form.FirstDate.laterDateThanDrawFrom">
-            This date must be before the "First Date" date
+            Must be earlier than "First Date" date!
           </b-form-invalid-feedback>
         </b-form-group>
 
-
-
+          </b-col>
+          <b-col>
         <b-form-group label="First Date">
           <b-datepicker :state="validateState('FirstDate')"  v-model="form['FirstDate']"></b-datepicker>
           <b-form-invalid-feedback  v-if="!$v.form.FirstDate.required">
             This is a required field!
           </b-form-invalid-feedback>
           <b-form-invalid-feedback  v-if="!$v.form.FirstDate.laterDateThanDrawFrom">
-            This date must be after the "Draw From" date
+            Must be later than "Draw From" date!
           </b-form-invalid-feedback>
         </b-form-group>
+          </b-col>
+        </b-row>
 
 
 
-
+        <b-row>
+          <b-col>
         <b-form-group label="Debt">
-            <b-form-input :state="validateState('Debt')"  v-model="form['Debt']" type="number" placeholder="Enter Debt"></b-form-input>
+            <b-form-input :state="validateState('Debt')"  v-model="form['Debt']" type="number" placeholder="CZK"></b-form-input>
           <b-form-invalid-feedback  v-if="!$v.form.Debt.required">
             This is a required field!
           </b-form-invalid-feedback>
+          <b-form-invalid-feedback  v-if="!$v.form.Debt.numeric">
+            Must be a number!
+          </b-form-invalid-feedback>
+          <b-form-invalid-feedback  v-if="!$v.form.Debt.between">
+            Invalid value range!
+          </b-form-invalid-feedback>
         </b-form-group>
+</b-col>
 
 
-
+          <b-col>
         <b-form-group label="Interest Rate">
-            <b-form-input :state="validateState('InterestRatePrc')"  v-model="form['InterestRatePrc']" type="number" placeholder="Enter Interest Rate Percentage"></b-form-input>
+            <b-form-input :state="validateState('InterestRatePrc')"  v-model="form['InterestRatePrc']" type="number" placeholder="%"></b-form-input>
           <b-form-invalid-feedback  v-if="!$v.form.InterestRatePrc.required">
             This is a required field!
           </b-form-invalid-feedback>
+          <b-form-invalid-feedback  v-if="!$v.form.InterestRatePrc.numeric">
+            Must be a number!
+          </b-form-invalid-feedback>
+          <b-form-invalid-feedback  v-if="!$v.form.InterestRatePrc.between">
+            Invalid value range!
+          </b-form-invalid-feedback>
         </b-form-group>
+</b-col>
+</b-row>
 
-
-
+        <b-row>
+          <b-col>
         <b-form-group label="Payment Count">
-          <b-form-input :state="validateState('PaymentCount')"  v-model="form['PaymentCount']" type="number" placeholder="Enter Payment Count"></b-form-input>
+          <b-form-input :state="validateState('PaymentCount')"  v-model="form['PaymentCount']" type="number" placeholder="-"></b-form-input>
           <b-form-invalid-feedback  v-if="!$v.form.PaymentCount.required">
             This is a required field!
           </b-form-invalid-feedback>
+          <b-form-invalid-feedback  v-if="!$v.form.PaymentCount.integer">
+            Must be an integer!
+          </b-form-invalid-feedback>
+          <b-form-invalid-feedback  v-if="!$v.form.PaymentCount.between">
+            Invalid value range!
+          </b-form-invalid-feedback>
+          <b-form-invalid-feedback  v-if="!$v.form.PaymentCount.divisibleByThree">
+            Must be divisible by 3!
+          </b-form-invalid-feedback>
+          <b-form-invalid-feedback  v-if="!$v.form.PaymentPeriod.smallerOrEqualThanPaymentCount">
+            Must be larger than "Payment Period"!
+          </b-form-invalid-feedback>
         </b-form-group>
+          </b-col>
 
 
+        <b-col>
         <b-form-group label="Payment Period">
-          <b-form-input :state="validateState('PaymentPeriod')"  v-model="form['PaymentPeriod']" type="number" placeholder="Enter Payment Period"></b-form-input>
+          <b-form-input :state="validateState('PaymentPeriod')"  v-model="form['PaymentPeriod']" type="number" placeholder="-"></b-form-input>
           <b-form-invalid-feedback  v-if="!$v.form.PaymentPeriod.required">
             This is a required field!
           </b-form-invalid-feedback>
+          <b-form-invalid-feedback  v-if="!$v.form.PaymentPeriod.integer">
+            Must be an integer!
+          </b-form-invalid-feedback>
+          <b-form-invalid-feedback  v-if="!$v.form.PaymentPeriod.between">
+            Invalid value range!
+          </b-form-invalid-feedback>
+          <b-form-invalid-feedback  v-if="!$v.form.PaymentPeriod.divisibleByThreeOrIsEqualToOne">
+            Must be 1 or divisible by 3!
+          </b-form-invalid-feedback>
+          <b-form-invalid-feedback  v-if="!$v.form.PaymentPeriod.smallerOrEqualThanPaymentCount">
+            Must be equal or smaller than "Payment Count"!
+          </b-form-invalid-feedback>
         </b-form-group>
+        </b-col>
+        </b-row>
 
-
-        <b-button @click="getTableRows()">Get Table</b-button>
+        <b-button class="col-lg-12" size="lg"  @click="getTableRows()">Get Table</b-button>
       </div>
     </div>
 
@@ -81,21 +124,20 @@
     <CalendarTable></CalendarTable>
     -->
 
-    <b-table
-      borderless
-      :items="items"
-      class="calendar-table col-sm-1"
-    ></b-table>
+    <client-only>
+      <b-table
+        borderless
+        :items="formattedRows"
+        class="calendar-table col-sm-1"
+      ></b-table>
+    </client-only>
 
   </section>
+  </client-only>
 </template>
 
 <script>
-import CalendarInput from '~/components/CalendarInput.vue'
-import CalendarTable from '~/components/CalendarTable.vue'
-import { validationMixin } from "vuelidate";
 import { required, numeric, integer, between } from 'vuelidate/lib/validators'
-
 
 // custom validators
 function smallerOrEqualThanPaymentCount(value) {
@@ -111,15 +153,12 @@ function divisibleByThreeOrIsEqualToOne(value) {
 }
 
 function laterDateThanDrawFrom(value) {
-  console.log("HELLO later")
-  console.log(this.form.DrawFrom)
   return value > this.form.DrawFrom || !!!this.form.DrawFrom
 }
 
+
 export default {
   components: {
-    CalendarInput,
-    CalendarTable
   },
   data() {
     return {
@@ -137,7 +176,7 @@ export default {
   validations: {
     form: {
       DrawFrom: {
-        required
+        required,
       },
       FirstDate: {
         required,
@@ -157,12 +196,12 @@ export default {
         required,
         integer,
         divisibleByThree,
-        between: between(6, 300)
+        between: between(6, 192)
       },
       PaymentPeriod: {
         required,
         integer,
-        between: between(1, 300),
+        between: between(1, 192),
         divisibleByThreeOrIsEqualToOne,
         smallerOrEqualThanPaymentCount
       },
@@ -189,51 +228,51 @@ export default {
       })
     },
     loadDataFromRouteQuery() {
-      const query = this.$route.query
-      console.log("Hello!")
-      console.log(query)
-      if (!Object.keys(query).length) {
-        return true
-      }
-
-      this.form.DrawFrom =  new Date(query.drawFrom)
-
-      console.log(this.form.DrawFrom)
-
-
-      this.form.FirstDate = new Date(query.firstDate)
-      this.form.Debt =  Number(query.debt)
-      this.form.InterestRatePrc = Number(query.interest)
-      this.form.PaymentCount = parseInt(query.paymentCount)
-      this.form.PaymentPeriod = parseInt(query.paymentPeriod)
       /*
-      How can we do this?
-      We can copy paste from data to here and init data with empty strings.
-      I wonder how would that look like...
-
-      It is important that we are giving the variables the same thing that the inputs are giving!
-      Almost crucial.
+       * Returns true if there is at least one item in query
        */
+      const query = this.$route.query
+      if (!Object.keys(query).length) {
+        return false
+      }
+      if ("drawFrom" in query) {
+        this.form.DrawFrom = new Date(query.drawFrom)
+      }
+      if ("firstDate" in query) {
+        this.form.FirstDate = new Date(query.firstDate)
+      }
+      if ("debt" in query) {
+        this.form.Debt = Number(query.debt)
+      }
+      if ("interest" in query) {
+        this.form.InterestRatePrc = Number(query.interest)
+      }
+      if ("paymentCount" in query) {
+        this.form.PaymentCount = parseInt(query.paymentCount)
+      }
+      if ("paymentPeriod" in query) {
+        this.form.PaymentPeriod = parseInt(query.paymentPeriod)
+      }
+      return true
     }
   },
   computed: {
-    items() {
-      var formatted
-      formatted = this.rows.map(row => {
-        const formatter = new Intl.NumberFormat('cs', {
-          style: 'currency',
-          currency: 'CZK',
-          minimumFractionDigits: 2
-        })
+    formattedRows() {
+      const currencyFormatter = new Intl.NumberFormat('cs', {
+        style: 'currency',
+        currency: 'CZK',
+        minimumFractionDigits: 2
+      })
 
+      var formatted = this.rows.map(row => {
         delete row["Number"]
         row["Date"] = new Date(row["Date"]).toLocaleDateString('cs')
         row["PaidDate"] = new Date(row["PaidDate"]).toLocaleDateString('cs')
-        row["Amount"] = formatter.format(row["Amount"])
-        row["Interest"] = formatter.format(row["Interest"])
-        row["Debt"] = formatter.format(row["Debt"])
-        row["PaidAmount"] = formatter.format(row["PaidAmount"])
-        row["Principal"] = formatter.format(row["Principal"])
+        row["Amount"] = currencyFormatter.format(row["Amount"])
+        row["Interest"] = currencyFormatter.format(row["Interest"])
+        row["Debt"] = currencyFormatter.format(row["Debt"])
+        row["PaidAmount"] = currencyFormatter.format(row["PaidAmount"])
+        row["Principal"] = currencyFormatter.format(row["Principal"])
         return row
       })
 
@@ -241,16 +280,19 @@ export default {
     }
   },
   beforeMount() {
-    var isQueryEmpty = this.loadDataFromRouteQuery()
-    if (isQueryEmpty) { // so the validator errors will not get triggered!
-      return
+    var isQueryNotEmpty = this.loadDataFromRouteQuery()
+    if (isQueryNotEmpty) { // so the validator errors will not get triggered!
+      this.getTableRows()
     }
-    this.getTableRows()
   }
 }
 </script>
 
 <style>
+
+  body {
+    padding-top: 40px;
+  }
 
   .calendar-table {
     width: 210mm !important;
