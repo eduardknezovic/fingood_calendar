@@ -1,9 +1,8 @@
 <template>
-      <b-table striped hover :items="items"></b-table>
+  <b-table striped hover :items="items"></b-table>
 </template>
 
 <script>
-  import { BModal, VBModal } from 'bootstrap-vue'
 
   export default {
     data() {

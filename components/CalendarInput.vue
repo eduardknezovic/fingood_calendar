@@ -1,5 +1,13 @@
 <template>
-  <h1>Hello, component</h1>
+  <div class="container">
+
+    <div>
+      <h4>Draw From:</h4>
+      <b-datepicker></b-datepicker>
+    </div>
+
+
+  </div>
 </template>
 
 <style>
