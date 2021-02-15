@@ -1,7 +1,7 @@
 export default {
   // Global page headers: https://go.nuxtjs.dev/config-head
   head: {
-    title: 'fingood_calendar',
+    title: 'FinGOOD Investment Calendar',
     htmlAttrs: {
       lang: 'en'
     },

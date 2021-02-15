@@ -141,7 +141,7 @@ import { required, numeric, integer, between } from 'vuelidate/lib/validators'
 
 // custom validators
 function smallerOrEqualThanPaymentCount(value) {
-  return value <= this.form.PaymentCount
+  return parseInt(value) <= parseInt(this.form.PaymentCount)
 }
 
 function divisibleByThree(value) {
