@@ -1,7 +1,7 @@
 export default {
   // Global page headers: https://go.nuxtjs.dev/config-head
   head: {
-    title: 'fingood_calendar',
+    title: 'FinGOOD Investment Calendar',
     htmlAttrs: {
       lang: 'en'
     },
@@ -21,6 +21,7 @@ export default {
 
   // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
   plugins: [
+    '~/plugins/Vuelidate.js'
   ],
 
   // Auto import components: https://go.nuxtjs.dev/config-components
@@ -34,7 +35,14 @@ export default {
   modules: [
     // https://go.nuxtjs.dev/bootstrap
     'bootstrap-vue/nuxt',
+    '@nuxtjs/axios',
+    '@nuxtjs/proxy',
+    '@nuxt/http'
   ],
+
+  proxy: {
+  '/api/v1': { target: 'put-fingood-api-url-here', pathRewrite: {'^/api/v1': ''} }
+  },
 
   // Build Configuration: https://go.nuxtjs.dev/config-build
   build: {
